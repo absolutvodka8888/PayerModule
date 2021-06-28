@@ -38,12 +38,12 @@ func getProductsInfo() {
             
             if skProduct.productIdentifier == "com.yourcompany.premium.monthly" {
                 let price = skProduct.localizedPrice ?? "Weekly $9.99 per week"
-                self.btnWeekly.setTitle(price, for: .normal)
+                self.btnMonthly.setTitle(price, for: .normal)
             }
             
             if skProduct.productIdentifier == "com.yourcompany.premium.yearly" {
                 let price = skProduct.localizedPrice ?? "Weekly $9.99 per week"
-                self.btnWeekly.setTitle(price, for: .normal)
+                self.btnYearly.setTitle(price, for: .normal)
             }
         }
     }
