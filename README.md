@@ -20,7 +20,7 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     return true
 }
 ~~~
-Bước 2:  Thực thi lệnh mua hàng
+Thực thi lệnh mua hàng
 ~~~swift
 
 func purchaseAProduct() {
@@ -46,4 +46,9 @@ func restore() {
     }
 }
 
+~~~
+
+Hàm hỗ trợ kiểm tra trạng thái IAP
+~~~swift
+let status = Payer.shared.isPurchased
 ~~~
