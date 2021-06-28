@@ -25,6 +25,31 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
     return true
 }
 ~~~
+
+Tải giá từ server về *Vui lòng chạy trên máy thật và add sandbox tester*
+~~~swift
+func getProductsInfo() {
+    Payer.shared.getInfoSubscriptions { products in
+        products.forEach { skProduct in
+            if skProduct.productIdentifier == "com.yourcompany.premium.weekly" {
+                let price = skProduct.localizedPrice ?? "Weekly $9.99 per week"
+                self.btnWeekly.setTitle(price, for: .normal)
+            }
+            
+            if skProduct.productIdentifier == "com.yourcompany.premium.monthly" {
+                let price = skProduct.localizedPrice ?? "Weekly $9.99 per week"
+                self.btnWeekly.setTitle(price, for: .normal)
+            }
+            
+            if skProduct.productIdentifier == "com.yourcompany.premium.yearly" {
+                let price = skProduct.localizedPrice ?? "Weekly $9.99 per week"
+                self.btnWeekly.setTitle(price, for: .normal)
+            }
+        }
+    }
+}
+~~~
+
 Thực thi lệnh mua hàng
 ~~~swift
 
