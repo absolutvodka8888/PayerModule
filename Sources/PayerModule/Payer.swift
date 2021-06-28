@@ -24,6 +24,8 @@ public class Payer: NSObject {
     private var appleSharedSecretKey: String = ""
     private var services: AppleReceiptValidator.VerifyReceiptURLType = .production
 
+    static let shared = Payer()
+    
     public func config(listSubscription: [String],
                        services: AppleReceiptValidator.VerifyReceiptURLType = .production,
                        appleSharedSecretKey: String)
@@ -117,7 +119,7 @@ extension Payer: Payerable {
                 let productIds = Set(self.listSubscription)
                 let purchaseResult = SwiftyStoreKit.verifySubscriptions(productIds: productIds, inReceipt: receipt)
                 switch purchaseResult {
-                case .purchased( _,  _):
+                case .purchased:
                     completion(true, nil)
                 case .expired(let expiryDate, _):
                     let msg = "Products are expired since \(expiryDate), please purchase again!"
@@ -167,12 +169,13 @@ extension Payer: Payerable {
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
         if self.checkAllowedToFetch() {
-            self.verifySubscriptions { isSuccess, errorMsg in
+            self.verifySubscriptions { isSuccess, _ in
                 if isSuccess {
                     Defaults[\.isPurchased] = true
                     self.setAllowedToFetch()
                     dispatchGroup.leave()
-                } else {
+                }
+                else {
                     Defaults[\.isPurchased] = false
                     dispatchGroup.leave()
                 }
@@ -183,8 +186,7 @@ extension Payer: Payerable {
         }
 
         dispatchGroup.notify(queue: .main) {
-            print("Multil functions complete 👍")
-            print("=========================Finish Complete Transactions==================================")
+            print("Transactions complete 👍")
             completion(1, 1)
         }
     }

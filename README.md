@@ -1,3 +1,3 @@
 # PayerModule
 
-A description of this package.
+Thư viện miễn phí dùng để tạo in-app
