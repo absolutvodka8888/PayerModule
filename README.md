@@ -12,9 +12,9 @@ Cài đặt Module trong AppDelegate.swift :
 ~~~swift
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     // Override point for customization after application launch.
-    Payer.shared.config(listSubscription: ["com.avenger.test.premium.weekly",
-                                           "com.avenger.test.premium.monthly",
-                                           "com.avenger.test.premium.yearly"],
+    Payer.shared.config(listSubscription: ["com.yourcompany.test.premium.weekly",
+                                           "com.yourcompany.test.premium.monthly",
+                                           "com.yourcompany.test.premium.yearly"],
                         appleSharedSecretKey: "you secret key")
     Payer.shared.completeTransactions { _, _ in}
     return true
@@ -24,7 +24,7 @@ Thực thi lệnh mua hàng
 ~~~swift
 
 func purchaseAProduct() {
-    Payer.shared.purchase(product: "com.avenger.test.premium.weekly") { success, errorMsg in
+    Payer.shared.purchase(product: "com.yourcompany.test.premium.weekly") { success, errorMsg in
         if success {
             //TODO: Thực hiện lệnh khi thanh toán thành công
             // ví dụ: ẩn màn hình IAP
