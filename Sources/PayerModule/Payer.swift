@@ -117,7 +117,7 @@ extension Payer: Payerable {
                 let productIds = Set(self.listSubscription)
                 let purchaseResult = SwiftyStoreKit.verifySubscriptions(productIds: productIds, inReceipt: receipt)
                 switch purchaseResult {
-                case .purchased(let expiryDate, let items):
+                case .purchased( _,  _):
                     completion(true, nil)
                 case .expired(let expiryDate, _):
                     let msg = "Products are expired since \(expiryDate), please purchase again!"
