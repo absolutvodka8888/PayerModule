@@ -5,7 +5,9 @@
 
 Swift Package Manager: File -> Swift Package -> Add Package Dependency ...
 ~~~swift
-https://github.com/absolutvodka8888/PayerModule.git
+dependencies: [
+    .package(url: "https://github.com/absolutvodka8888/PayerModule.git", .upToNextMajor(from: "0.0.1"))
+]
 ~~~
 
 Import Module
