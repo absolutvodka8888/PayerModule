@@ -20,7 +20,7 @@ public protocol Payerable: AnyObject {
     func completeTransactions(completion: @escaping PayerCompletion<Any, Any>)
 }
 
-public class Payer: NSObject {
+open class Payer: NSObject {
     private var listSubscription: [String] = []
     private var appleSharedSecretKey: String = ""
     private var services: AppleReceiptValidator.VerifyReceiptURLType = .production
