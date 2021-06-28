@@ -4,14 +4,15 @@ import SwiftyStoreKit
 import SwiftyUserDefaults
 import UIKit
 
-internal typealias PayerCompletion<T, U> = ((T, U) -> Void)
-internal typealias PayerProducts = (Set<SKProduct>) -> Void
+public typealias PayerCompletion<T, U> = ((T, U) -> Void)
+public typealias PayerProducts = (Set<SKProduct>) -> Void
+
 extension DefaultsKeys {
     var isPurchased: DefaultsKey<Bool> { .init("isPurchased", defaultValue: false) }
     var isAllowedToFetch: DefaultsKey<Bool> { .init("isAllowedToFetch", defaultValue: false) }
 }
 
-internal protocol Payerable {
+public protocol Payerable: AnyObject {
     func purchase(product id: String, completion: @escaping PayerCompletion<Bool, String?>)
     func restore(completion: @escaping PayerCompletion<Bool, String?>)
     func verifySubscriptions(completion: @escaping PayerCompletion<Bool, String?>)
@@ -23,9 +24,9 @@ public class Payer: NSObject {
     private var listSubscription: [String] = []
     private var appleSharedSecretKey: String = ""
     private var services: AppleReceiptValidator.VerifyReceiptURLType = .production
-
+    
     public static let shared = Payer()
-
+    
     public func config(listSubscription: [String],
                        services: AppleReceiptValidator.VerifyReceiptURLType = .production,
                        appleSharedSecretKey: String)
@@ -34,22 +35,22 @@ public class Payer: NSObject {
         self.services = services
         self.appleSharedSecretKey = appleSharedSecretKey
     }
-
+    
     private func checkAllowedToFetch() -> Bool {
         return Defaults[\.isAllowedToFetch]
     }
-
+    
     private func setAllowedToFetch() {
         Defaults[\.isAllowedToFetch] = true
     }
-
+    
     public var isPurchased: Bool {
         return Defaults[\.isPurchased]
     }
 }
 
 extension Payer: Payerable {
-    func purchase(product id: String, completion: @escaping PayerCompletion<Bool, String?>) {
+    public func purchase(product id: String, completion: @escaping PayerCompletion<Bool, String?>) {
         SwiftyStoreKit.purchaseProduct(id,
                                        quantity: 1,
                                        atomically: true) { result in
@@ -85,8 +86,8 @@ extension Payer: Payerable {
             }
         }
     }
-
-    func restore(completion: @escaping PayerCompletion<Bool, String?>) {
+    
+    public func restore(completion: @escaping PayerCompletion<Bool, String?>) {
         SwiftyStoreKit.restorePurchases(atomically: true) { results in
             if results.restoreFailedPurchases.count > 0 {
                 completion(false, "Restore Failed: \(results.restoreFailedPurchases)")
@@ -109,8 +110,8 @@ extension Payer: Payerable {
             }
         }
     }
-
-    func verifySubscriptions(completion: @escaping PayerCompletion<Bool, String?>) {
+    
+    public func verifySubscriptions(completion: @escaping PayerCompletion<Bool, String?>) {
         if listSubscription.isEmpty {
             fatalError("List subscription must not empty. Please add use method `configs` to set list subscription")
         }
@@ -137,8 +138,8 @@ extension Payer: Payerable {
             }
         }
     }
-
-    func getInfoSubscriptions(completion: @escaping (Set<SKProduct>) -> Void) {
+    
+    public func getInfoSubscriptions(completion: @escaping (Set<SKProduct>) -> Void) {
         SwiftyStoreKit.retrieveProductsInfo(Set(listSubscription)) { result in
             if let invalidProductId = result.invalidProductIDs.first {
                 print("Invalid product identifier: \(invalidProductId)")
@@ -149,8 +150,8 @@ extension Payer: Payerable {
             completion(result.retrievedProducts)
         }
     }
-
-    func completeTransactions(completion: @escaping PayerCompletion<Any, Any>) {
+    
+    public func completeTransactions(completion: @escaping PayerCompletion<Any, Any>) {
         SwiftyStoreKit.completeTransactions(atomically: true) { purchases in
             for purchase in purchases {
                 switch purchase.transaction.transactionState {
