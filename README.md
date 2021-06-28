@@ -3,7 +3,8 @@
 
 ## Hướng dẫn sử dụng module
 
-Swift Package Manager: File -> Swift Package -> Add Package Dependency ...
+Swift Package Manager: 
+File -> Swift Package -> Add Package Dependency ...
 ~~~swift
 dependencies: [
     .package(url: "https://github.com/absolutvodka8888/PayerModule.git", .upToNextMajor(from: "0.0.1"))
