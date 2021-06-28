@@ -3,6 +3,11 @@
 
 ## Hướng dẫn sử dụng module
 
+Swift Package Manager: File -> Swift Package -> Add Package Dependency ...
+~~~swift
+https://github.com/absolutvodka8888/PayerModule.git
+~~~
+
 Import Module
 ~~~swift
 import PayerModule
