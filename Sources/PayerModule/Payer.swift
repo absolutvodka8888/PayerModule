@@ -24,7 +24,7 @@ public class Payer: NSObject {
     private var appleSharedSecretKey: String = ""
     private var services: AppleReceiptValidator.VerifyReceiptURLType = .production
 
-    static let shared = Payer()
+    public static let shared = Payer()
 
     public func config(listSubscription: [String],
                        services: AppleReceiptValidator.VerifyReceiptURLType = .production,
