@@ -49,7 +49,7 @@ public class Payer: NSObject {
     }
 }
 
-extension Payer: Payerable {
+extension Payer {
     public func purchase(product id: String, completion: @escaping PayerCompletion<Bool, String?>) {
         SwiftyStoreKit.purchaseProduct(id,
                                        quantity: 1,
